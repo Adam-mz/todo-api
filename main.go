@@ -24,9 +24,10 @@ func taskPostHandler(c echo.Context) error {
 	if err := c.Bind(&body); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid request body")
 	}
-	task = append(task, requestBody{ID: strconv.Itoa(TaskId), Task: body.Task})
+	newTask := requestBody{ID: strconv.Itoa(TaskId), Task: body.Task}
+	task = append(task, newTask)
 	TaskId++
-	return c.JSON(http.StatusOK, "Task created")
+	return c.JSON(http.StatusCreated, newTask)
 }
 
 func taskPutHandler(c echo.Context) error {
@@ -34,13 +35,12 @@ func taskPutHandler(c echo.Context) error {
 	if err := c.Bind(&body); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid request body")
 	}
-	var id = c.Param("id")
+	id := c.Param("id")
 	for i, t := range task {
 		if t.ID == id {
 			task[i].Task = body.Task
-			return c.JSON(http.StatusOK, "Task updated")
+			return c.JSON(http.StatusOK, task[i])
 		}
-
 	}
 	return c.JSON(http.StatusNotFound, "Task not found")
 }
