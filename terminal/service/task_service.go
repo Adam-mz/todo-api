@@ -6,10 +6,10 @@ import (
 )
 
 type TaskService interface {
-	CreateTask(task *models.Task) (*models.Task, error)
+	PostTasks(task *models.Task) (*models.Task, error)
 	GetAllTasks() ([]models.Task, error)
 	GetTaskByID(id string) (*models.Task, error)
-	UpdateTask(task *models.Task) (*models.Task, error)
+	PatchTasksId(task *models.Task) (*models.Task, error)
 	DeleteTask(id string) error
 }
 
@@ -21,8 +21,8 @@ func NewTaskService(r repository.TaskRepository) TaskService {
 	return &taskService{repo: r}
 }
 
-func (s *taskService) CreateTask(task *models.Task) (*models.Task, error) {
-	return s.repo.Create(task)
+func (s *taskService) PostTasks(task *models.Task) (*models.Task, error) {
+	return s.repo.PostTasks(task)
 }
 
 func (s *taskService) GetAllTasks() ([]models.Task, error) {
@@ -33,8 +33,8 @@ func (s *taskService) GetTaskByID(id string) (*models.Task, error) {
 	return s.repo.GetByID(id)
 }
 
-func (s *taskService) UpdateTask(task *models.Task) (*models.Task, error) {
-	return s.repo.Update(task)
+func (s *taskService) PatchTasksId(task *models.Task) (*models.Task, error) {
+	return s.repo.PatchTasksId(task)
 }
 
 func (s *taskService) DeleteTask(id string) error {

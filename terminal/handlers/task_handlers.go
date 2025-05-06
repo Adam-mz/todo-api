@@ -16,12 +16,12 @@ func NewTaskHandler(s service.TaskService) *TaskHandler {
 	return &TaskHandler{service: s}
 }
 
-func (h *TaskHandler) CreateTask(c echo.Context) error {
+func (h *TaskHandler) PostTasks(c echo.Context) error {
 	var task models.Task
 	if err := c.Bind(&task); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid request")
 	}
-	createdTask, err := h.service.CreateTask(&task)
+	createdTask, err := h.service.PostTasks(&task)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to create task")
 	}
@@ -45,7 +45,7 @@ func (h *TaskHandler) GetTaskByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, task)
 }
 
-func (h *TaskHandler) UpdateTask(c echo.Context) error {
+func (h *TaskHandler) PatchTasksId(c echo.Context) error {
 	id := c.Param("id")
 	task, err := h.service.GetTaskByID(id)
 	if err != nil {
@@ -56,7 +56,7 @@ func (h *TaskHandler) UpdateTask(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Invalid JSON")
 	}
 
-	updatedTask, err := h.service.UpdateTask(task)
+	updatedTask, err := h.service.PatchTasksId(task)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to update task")
 	}

@@ -7,10 +7,10 @@ import (
 )
 
 type TaskRepository interface {
-	Create(task *models.Task) (*models.Task, error)
+	PostTasks(task *models.Task) (*models.Task, error)
 	GetAll() ([]models.Task, error)
 	GetByID(id string) (*models.Task, error)
-	Update(task *models.Task) (*models.Task, error)
+	PatchTasksId(task *models.Task) (*models.Task, error)
 	Delete(task *models.Task) error
 }
 
@@ -22,7 +22,7 @@ func NewTaskRepository(db *gorm.DB) TaskRepository {
 	return &taskRepository{db: db}
 }
 
-func (r *taskRepository) Create(task *models.Task) (*models.Task, error) {
+func (r *taskRepository) PostTasks(task *models.Task) (*models.Task, error) {
 	if err := r.db.Create(task).Error; err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (r *taskRepository) GetByID(id string) (*models.Task, error) {
 	return &task, nil
 }
 
-func (r *taskRepository) Update(task *models.Task) (*models.Task, error) {
+func (r *taskRepository) PatchTasksId(task *models.Task) (*models.Task, error) {
 	if err := r.db.Save(task).Error; err != nil {
 		return nil, err
 	}

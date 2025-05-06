@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"todo-api/terminal/database"
 	"todo-api/terminal/handlers"
 	"todo-api/terminal/repository"
@@ -22,11 +23,14 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORS())
 
-	e.POST("/tasks", handler.CreateTask)
+	e.POST("/tasks", handler.PostTasks)
 	e.GET("/tasks", handler.GetAllTasks)
 	e.GET("/tasks/:id", handler.GetTaskByID)
-	e.PUT("/tasks/:id", handler.UpdateTask)
+	e.PUT("/tasks/:id", handler.PatchTasksId)
 	e.DELETE("/tasks/:id", handler.DeleteTask)
 
-	e.Start(":8080")
+	if err := e.Start(":8080"); err != nil {
+		log.Fatalf("failed to start: %v", err)
+	}
+
 }
