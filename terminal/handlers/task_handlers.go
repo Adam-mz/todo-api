@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"net/http"
-	"time"
 	"todo-api/terminal/models"
 	"todo-api/terminal/service"
 
@@ -22,7 +21,7 @@ func (h *TaskHandler) PostTasks(c echo.Context) error {
 	if err := c.Bind(&task); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid request")
 	}
-	task.Created_at = time.Now()
+
 	createdTask, err := h.service.PostTasks(&task)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to create task")
@@ -58,7 +57,7 @@ func (h *TaskHandler) PatchTasksId(c echo.Context) error {
 	if err := c.Bind(task); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid JSON")
 	}
-	task.Updated_at = time.Now()
+
 	updatedTask, err := h.service.PatchTasksId(task)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Failed to update task")
