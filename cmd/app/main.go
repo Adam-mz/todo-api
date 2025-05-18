@@ -38,6 +38,7 @@ func main() {
 	e.GET("/users/:id", userHandler.GetUserByID)
 	e.PUT("/users/:id", userHandler.UpdateUser)
 	e.DELETE("/users/:id", userHandler.DeleteUser)
+	e.GET("/users/:user_id/tasks", taskHandler.GetTasksByUserID)
 
 	if err := e.Start(":8080"); err != nil {
 		log.Fatalf("failed to start: %v", err)

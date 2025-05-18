@@ -9,4 +9,5 @@ type Task struct {
 	CreatedAt  time.Time  `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt  time.Time  `gorm:"autoUpdateTime" json:"updated_at"`
 	Deleted_at *time.Time `json:"deleted_at" gorm:"default:null"`
+	UserID     uint       `json:"user_id"`
 }

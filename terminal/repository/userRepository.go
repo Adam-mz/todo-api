@@ -29,7 +29,7 @@ func (r *userRepository) CreateUser(user *models.User) (*models.User, error) {
 }
 func (r *userRepository) GetAllUsers() ([]*models.User, error) {
 	var users []*models.User
-	if err := r.db.Find(&users).Error; err != nil {
+	if err := r.db.Preload("Tasks").Find(&users).Error; err != nil {
 		return nil, err
 	}
 	return users, nil

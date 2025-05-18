@@ -12,6 +12,7 @@ type TaskRepository interface {
 	GetByID(id string) (*models.Task, error)
 	PatchTasksId(task *models.Task) (*models.Task, error)
 	Delete(task *models.Task) error
+	GetTasksByUserID(userID uint) ([]models.Task, error)
 }
 
 type taskRepository struct {
@@ -27,6 +28,14 @@ func (r *taskRepository) PostTasks(task *models.Task) (*models.Task, error) {
 		return nil, err
 	}
 	return task, nil
+}
+
+func (r *taskRepository) GetTasksByUserID(userID uint) ([]models.Task, error) {
+	var tasks []models.Task
+	if err := r.db.Where("user_id = ?", userID).Find(&tasks).Error; err != nil {
+		return nil, err
+	}
+	return tasks, nil
 }
 
 func (r *taskRepository) GetAll() ([]models.Task, error) {

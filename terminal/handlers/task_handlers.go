@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 	"todo-api/terminal/models"
 	"todo-api/terminal/service"
 
@@ -28,6 +29,17 @@ func (h *TaskHandler) PostTasks(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, createdTask)
+}
+func (h *TaskHandler) GetTasksByUserID(c echo.Context) error {
+	userID, err := strconv.Atoi(c.Param("user_id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, "Invalid user ID")
+	}
+	tasks, err := h.service.GetTasksByUserID(uint(userID))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, "Could not get tasks")
+	}
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (h *TaskHandler) GetAllTasks(c echo.Context) error {

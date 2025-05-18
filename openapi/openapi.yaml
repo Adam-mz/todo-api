@@ -143,20 +143,25 @@ paths:
       responses:
         '204':
           description: User deleted
-
-components:
-  schemas:
-    Task:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: uint
-        task:
-          type: string
-        is_done:
-          type: boolean
-
+ 
+  /users/{user_id}/tasks:
+    get:
+      summary: Get Tasks for a user
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
     User:
       type: object
       properties:

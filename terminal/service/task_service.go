@@ -11,6 +11,7 @@ type TaskService interface {
 	GetTaskByID(id string) (*models.Task, error)
 	PatchTasksId(task *models.Task) (*models.Task, error)
 	DeleteTask(id string) error
+	GetTasksByUserID(userID uint) ([]models.Task, error)
 }
 
 type taskService struct {
@@ -24,7 +25,9 @@ func NewTaskService(r repository.TaskRepository) TaskService {
 func (s *taskService) PostTasks(task *models.Task) (*models.Task, error) {
 	return s.repo.PostTasks(task)
 }
-
+func (s *taskService) GetTasksByUserID(userID uint) ([]models.Task, error) {
+	return s.repo.GetTasksByUserID(userID)
+}
 func (s *taskService) GetAllTasks() ([]models.Task, error) {
 	return s.repo.GetAll()
 }
